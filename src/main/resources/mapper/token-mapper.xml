@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kh.start.token.model.dao.TokenMapper">
+	<insert id="saveToken">
+		INSERT INTO
+			TB_BOOT_TOKEN
+		VALUES
+			(
+				#{token},
+				#{memberNo},
+				#{expiration}
+			)
+	</insert>
+	
+	<delete id="deleteExpiredRefreshToken">
+		DELETE FROM
+			TB_BOOT_TOKEN
+		WHERE
+			EXPIRATION &lt; #{now}
+	</delete>
+	
+	<select id="findByToken">
+		SELECT
+			TOKEN,
+			MEMBER_NO memberNo,
+			EXPIRATION
+		FROM
+			TB_BOOT_TOKEN
+		WHERE
+			TOKEN = #{token}
+	</select>
+</mapper>

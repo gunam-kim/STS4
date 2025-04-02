@@ -12,5 +12,7 @@ public interface TokenService {
 	*/
 	
 	// 1) + 2)
-	Map<String, String> generateToken(String username);
+	Map<String, String> generateToken(String username, Long memberNo);
+	
+	Map<String, String> refreshToken(String refreshToken);
 }

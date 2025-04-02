@@ -68,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
 			해시코드가 같으면 같은 객체다 (X)
 		*/
 		Map<String, String> loginResponse
-			= tokenService.generateToken(user.getUsername());
+			= tokenService.generateToken(user.getUsername(), user.getMemberNo());
 		loginResponse.put("memberId", user.getUsername());
 		loginResponse.put("memberName", user.getMemberName());
 		return loginResponse;
