@@ -1,7 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kh.start.board.model.dao.BoardMapper">
 
+	<sql id="boardColumn">
+		SELECT
+			BOARD_NO boardNo,
+			BOARD_TITLE board,
+			USER_ID boardWriter,
+			CREATE_DATE createDate
+	</sql>
+	<insert id="save"
+			parameterType="Board">
+		INSERT INTO
+			TB_BOOT_BOARD(
+				BOARD_NO,
+				BOARD_TITLE,
+				BOARD_CONTENT,
+				BOARD_WRITER,
+				BOARD_FILE_URL
+			)
+		VALUES
+		(
+			SEQ_BBN.NEXTVAL
+			#{boardTitle},
+			#{boardContent},
+			#{boardWriter},
+			#{boardFileUrl}
+		)
+	</insert>
+	
+	<select id="findAll"
+			resultType="com.kh.start.board.model.dto.BoardDTO">
+		<include refid="boardColumn" />
+		FROM
+			TB_BOOT_BOARD
+		JOIN
+			TB_BOOT_MEMBER ON (BOARD_WRITER = MEMBER_NO)
+		WHERE
+			STATUS = 'Y'
+		ORDER BY
+			BOARD_NO DESC
+	</select>
+	<select id="findById"
+			parameterType="long">
+		<include refid="boardColummn" />
+		BOARD_CONTENT boardContent,
+		BOARD_FILE_URL boardFileUrl
+		FROM
+			TB_BOOT_BOARD
+		JOIN
+			TB_BOOT_MEMBER ON (BOARD_WRITER = MEMBER_NO)
+		WHERE
+			STATUS = 'Y'
+		AND
+			BOARD_NO = #{boardNo}
+		ORDER BY
+			BOARD_NO DESC
+	</select>
 </mapper>
